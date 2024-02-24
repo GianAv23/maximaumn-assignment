@@ -1,5 +1,7 @@
 import axios from "axios";
 
-export const instance = axios.create({
+const instance = axios.create({
   baseURL: "https://catfact.ninja",
 });
+
+export default instance;

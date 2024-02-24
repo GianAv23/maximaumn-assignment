@@ -1,6 +1,10 @@
+import { React, useState, useEffect, useRef } from "react";
 import "./App.css";
 import axios from "./axios";
-import { React, useState, useEffect, useRef } from "react";
+import bgcat from "/src/assets/bgcat.svg";
+import catmaster from "/src/assets/catmaster.svg";
+import catmaster2 from "/src/assets/catmaster.png";
+import allinonecat from "/src/assets/allinonecat.png";
 
 function App() {
   const [catFact, setCatFact] = useState("");
@@ -30,22 +34,40 @@ function App() {
   };
 
   return (
-    <div className="bg-blue-950 w-full h-screen flex flex-wrap p-10 items-center place-content-center flex-col gap-4">
-      <div className="text-white">{error !== "" && error}</div>
-      {catFact ? (
-        <div>
-          <p className="text-3xl text-white">{catFact}</p>
-        </div>
-      ) : (
-        <p className="text-3xl text-white">Loading...</p>
-      )}
+    <div className="bg-bgColor w-full h-screen flex flex-wrap items-center justify-around">
+      {/* <div className="text-white">{error !== "" && error}</div> */}
 
-      <button
-        onClick={handleReload}
-        className="text-white bg-blue-500 px-4 py-2 mt-4 rounded hover:bg-blue-700"
-      >
-        Reload
-      </button>
+      {/* untuk gambar */}
+      <div className="flex flex-wrap bg-fixed">
+        <img className="h-screen z-0" src={allinonecat} alt="" />
+      </div>
+
+      {/* untuk tulisan */}
+      <div className="flex flex-wrap flex-col w-[600px] items-end place-content-end pr-32 gap-14">
+        <div>
+          <span className="text-titleColor text-6xl font-bold">CAT FACT</span>
+        </div>
+
+        <div>
+          {catFact ? (
+            <div className="text-appear">
+              <p className="text-2xl text-textColor text-end">{catFact}</p>
+            </div>
+          ) : (
+            <p className="text-xl text-textColor">Loading...</p>
+          )}
+        </div>
+
+        <div className="">
+          <button
+            onClick={handleReload}
+            className="animate-pulse rounded-full text-bgColor bg-titleColor px-4 py-2 mt-4 font-semibold hover:bg-primaryColor hover:text-titleColor"
+            style={{ animationDuration: "5s" }}
+          >
+            Click for more quotes
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
