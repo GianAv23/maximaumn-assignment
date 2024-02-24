@@ -1,87 +1,53 @@
 import "./App.css";
-import React from "react";
-import { useState, useEffect } from "react";
-import axios from "axios";
-import { Card } from "./components/Card";
+import axios from "./axios";
+import { React, useState, useEffect, useRef } from "react";
 
 function App() {
   const [catFact, setCatFact] = useState("");
+  const [error, setError] = useState("");
+  const isInitialMount = useRef(true);
 
   useEffect(() => {
-    const fetchCatFact = async () => {
-      try {
-        const response = await axios.get("https://catfact.ninja/fact");
-        setCatFact(response.data.fact);
-      } catch (error) {
-        console.error("Error fetching cat facts: ", error);
-      }
-    };
-
-    fetchCatFact();
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      fetchCatFact();
+    }
   }, []);
 
+  const fetchCatFact = async () => {
+    try {
+      const response = await axios.get("/fact");
+      setCatFact(response.data.fact);
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  const handleReload = () => {
+    setCatFact("");
+    setError("");
+    fetchCatFact();
+  };
+
   return (
-    <div className="">
-      <div className="bg-blue-950 w-full h-screen flex flex-wrap p-10 items-center place-content-center flex-col gap-4">
-        {catFact ? (
+    <div className="bg-blue-950 w-full h-screen flex flex-wrap p-10 items-center place-content-center flex-col gap-4">
+      <div className="text-white">{error !== "" && error}</div>
+      {catFact ? (
+        <div>
           <p className="text-3xl text-white">{catFact}</p>
-        ) : (
-          <p className="text-3xl text-white">Loading...</p>
-        )}
-      </div>
+        </div>
+      ) : (
+        <p className="text-3xl text-white">Loading...</p>
+      )}
+
+      <button
+        onClick={handleReload}
+        className="text-white bg-blue-500 px-4 py-2 mt-4 rounded hover:bg-blue-700"
+      >
+        Reload
+      </button>
     </div>
   );
 }
 
 export default App;
-
-// const [count, setCount] = useState(2);
-
-// const Penjumlahan = () => {
-//   setCount(count + 1);
-// };
-
-// const Pengurangan = () => {
-//   if (count > 0) {
-//     setCount(count - 1);
-//   } else {
-//     setCount(0);
-//   }
-// };
-
-// const Reset = () => {
-//   setCount(0);
-// };
-
-// const Data = ["Gian", "Albert", "Fatan"];
-
-{
-  /* <span className="text-5xl text-blue-50">useState</span>
-        <div className="flex flex-wrap items-center place-content-center gap-10 flex-row">
-          <button
-            className="rounded-full bg-blue-300 p-5 text"
-            onClick={Penjumlahan}
-          >
-            <span className="text-4xl font-semibold ">+</span>
-          </button>
-          <span className="text-3xl text-white font-bold">{count}</span>
-
-          <button
-            className="rounded-full bg-blue-300 p-5 text"
-            onClick={Pengurangan}
-          >
-            <span className="text-4xl font-semibold ">-</span>
-          </button>
-        </div>
-        <button
-          className="rounded-full w-48 bg-blue-300 p-2 text"
-          onClick={Reset}
-        >
-          <span className="text-2xl font-semibold ">Reset</span>
-        </button>
-        {Data.map((Data) => (
-          <h1 key={Data} className="text-cyan-500">
-            {Data}
-          </h1>
-        ))} */
-}
