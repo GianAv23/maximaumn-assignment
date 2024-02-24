@@ -1,21 +1,29 @@
-import { React, useState, useEffect, useRef } from "react";
-import "./App.css";
-import axios from "./axios";
-import Swal from "sweetalert2";
-import allinonecat from "/src/assets/allinonecat.png";
-
+/**
+ * Component representing the main application.
+ * @returns {JSX.Element} The rendered component.
+ */
 function App() {
+  /**
+   * State for storing the cat fact.
+   * @type {[string, function]}
+   */
   const [catFact, setCatFact] = useState("");
+
+  /**
+   * State for storing the error message.
+   * @type {[string, function]}
+   */
   const [error, setError] = useState("");
+
+  /**
+   * Ref to track initial mount.
+   * @type {object}
+   */
   const isInitialMount = useRef(true);
 
-  useEffect(() => {
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
-      fetchCatFact();
-    }
-  }, []);
-
+  /**
+   * Fetches a cat fact from the API.
+   */
   const fetchCatFact = async () => {
     try {
       const response = await axios.get("/fact");
@@ -38,6 +46,9 @@ function App() {
     }
   };
 
+  /**
+   * Handles the reload button click.
+   */
   const handleReload = () => {
     setCatFact("");
     setError("");
@@ -90,3 +101,20 @@ function App() {
 }
 
 export default App;
+
+/**
+ * A custom Axios instance for fetching cat facts.
+ * @module axiosInstance
+ */
+
+import axios from "axios";
+
+/**
+ * Creates a new Axios instance with a base URL for fetching cat facts.
+ * @type {import("axios").AxiosInstance}
+ */
+const instance = axios.create({
+  baseURL: "https://catfact.ninja",
+});
+
+export default instance;
