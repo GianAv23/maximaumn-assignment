@@ -2,12 +2,22 @@ import { React, useState, useEffect, useRef } from "react";
 import "./App.css";
 import axios from "./axios";
 import Swal from "sweetalert2";
+import AOS from "aos";
+import "aos/dist/aos.css";
 import allinonecat from "/src/assets/allinonecat.png";
 
 function App() {
   const [catFact, setCatFact] = useState("");
   const [error, setError] = useState("");
   const isInitialMount = useRef(true);
+
+  useEffect(() => {
+    AOS.init();
+  }, []);
+
+  useEffect(() => {
+    AOS.refresh();
+  }, [catFact]);
 
   useEffect(() => {
     if (isInitialMount.current) {
@@ -47,7 +57,12 @@ function App() {
   return (
     <div className="bg-bgColor w-full h-full flex flex-wrap items-center ss:max-sl:place-content-center sl:max-md:place-content-center md:place-content-center xl:justify-around">
       {/* IMAGE START */}
-      <div className="flex flex-wrap">
+      <div
+        className="flex flex-wrap "
+        data-aos="fade-down"
+        data-aos-easing="linear"
+        data-aos-duration="1100"
+      >
         <img
           className="z-0 h-[500px] sl:max-md:h-full md:h-screen lg:h-screen"
           src={allinonecat}
