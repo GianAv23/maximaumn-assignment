@@ -10,6 +10,15 @@ export default {
         primaryColor: "#AE5D3F",
       },
     },
+
+    screens: {
+      ss: "320px",
+      sm: "375px",
+      sl: "425px",
+      md: "768px",
+      lg: "1024px",
+      xl: "1440px",
+    },
   },
   plugins: [],
 };
